@@ -3,7 +3,9 @@ package org.java.spring_web4.web.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.java.spring_web4.db.pojo.Farm;
 import org.java.spring_web4.db.pojo.Farmer;
+import org.java.spring_web4.db.service.FarmService;
 import org.java.spring_web4.db.service.FarmerService;
 import org.java.spring_web4.web.dto.FarmerDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +26,20 @@ public class FarmerController {
     @Autowired
     private FarmerService farmerService;
 
+    @Autowired 
+    private FarmService farmService;
+
     @GetMapping("/test/add")
     public ResponseEntity<Void> addFarmer(){
-        Farmer f1 = new Farmer("Mario", "Rossi", 30, "Fattoria 1");
-        Farmer f2 = new Farmer("Giovanni", "Simonetti", 40, "Fattoria 2");
+        Farm farm1 = new Farm("Fattoria 1", "Milano");
+        Farm farm2 = new Farm("Fattoria 2", "Brescia");
+
+        farmService.save(farm1);
+        farmService.save(farm2);
+
+
+        Farmer f1 = new Farmer("Mario", "Rossi", 30, farm1);
+        Farmer f2 = new Farmer("Giovanni", "Simonetti", 40, farm2);
 
         farmerService.save(f1);
         farmerService.save(f2);

@@ -5,7 +5,6 @@ public class FarmerDto {
     private String name;
     private String surname;
     private int age;
-    private String farm;
 
     public FarmerDto(){}
 
@@ -32,16 +31,8 @@ public class FarmerDto {
         this.age = age;
     }
 
-    public String getFarm() {
-        return farm;
-    }
-
-    public void setFarm(String farm) {
-        this.farm = farm;
-    }
-
     @Override
     public String toString() {
-        return "FarmerDTo{" + " name=" + name + ", surname= " + surname + ", age=" + age + ", farm=" + farm + " }";
+        return "FarmerDTo{" + " name=" + name + ", surname= " + surname + ", age=" + age + " }";
     }
 }

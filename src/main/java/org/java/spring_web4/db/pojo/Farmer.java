@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Farmer {
@@ -24,16 +26,17 @@ public class Farmer {
     @Column(nullable = false)
     private int age;
 
-    @Column(nullable = false)
-    private String farm;
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Farm farm;
 
     public Farmer(){}
 
     public Farmer(FarmerDto farmerDto){
-        this(farmerDto.getName(), farmerDto.getSurname(), farmerDto.getAge(), farmerDto.getFarm());
+        update(farmerDto);
     }
 
-    public Farmer(String name, String surname, int age, String farm){
+    public Farmer(String name, String surname, int age, Farm farm){
         setName(name);
         setSurname(surname);
         setAge(age);
@@ -72,26 +75,26 @@ public class Farmer {
         this.age = age;
     }
 
-    public String getFarm() {
-        return farm;
-    }
-    
-    public void setFarm(String farm) {
-        this.farm = farm;
-    }
-
     public void update(FarmerDto farmerDto){
         setName(farmerDto.getName());
         setSurname(farmerDto.getSurname());
         setAge(farmerDto.getAge());
-        setFarm(farmerDto.getFarm());
     }
+
+    public Farm getFarm() {
+        return farm;
+    }
+
+    public void setFarm(Farm farm) {
+        this.farm = farm;
+    }
+    
 
 
 
     @Override
     public String toString() {
-        return "Farmer{" + "id=" + id + ", name=" + name + ", surname= " + surname + ", age=" + age + ", farm=" + farm + " }";
+        return "Farmer{" + "id=" + id + ", name=" + name + ", surname= " + surname + ", age=" + age + " }";
     }
 
 }
