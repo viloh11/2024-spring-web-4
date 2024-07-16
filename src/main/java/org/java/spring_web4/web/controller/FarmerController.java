@@ -8,6 +8,7 @@ import org.java.spring_web4.db.service.FarmerService;
 import org.java.spring_web4.web.dto.FarmerDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +24,7 @@ public class FarmerController {
     @Autowired
     private FarmerService farmerService;
 
-    @GetMapping("/add")
+    @GetMapping("/test/add")
     public ResponseEntity<Void> addFarmer(){
         Farmer f1 = new Farmer("Mario", "Rossi", 30, "Fattoria 1");
         Farmer f2 = new Farmer("Giovanni", "Simonetti", 40, "Fattoria 2");
@@ -42,7 +43,7 @@ public class FarmerController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Farmer> addFarmer(@PathVariable FarmerDto farmerDto){
+    public ResponseEntity<Farmer> addFarmer(@RequestBody FarmerDto farmerDto){
         Farmer farmer = new Farmer(farmerDto);
         farmerService.save(farmer);
 
@@ -60,5 +61,18 @@ public class FarmerController {
         farmerService.save(farmer);
 
         return ResponseEntity.ok(farmer);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteFarmer(@PathVariable int id){
+        Optional<Farmer> optFarmer = farmerService.getById(id);
+
+        if(optFarmer.isEmpty())
+            return ResponseEntity.notFound().build();
+
+        Farmer farmer = optFarmer.get();
+        farmerService.delete(farmer);
+
+        return ResponseEntity.ok().build();
     }
 }
